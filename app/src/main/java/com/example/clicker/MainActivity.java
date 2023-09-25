@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     Button button;
     Button reset;
     Integer count = 0;
+    Switch aSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,27 +24,37 @@ public class MainActivity extends AppCompatActivity {
         countDisplay = findViewById(R.id.textView);
         button = findViewById(R.id.button);
         reset = findViewById(R.id.button2);
-        countDisplay.setText("" + count);
-        Switch switch1 = (Switch) findViewById(R.id.switch1);
-        switch1.setChecked(true);
+        aSwitch = (Switch) findViewById(R.id.switch1);
 
-        if(switch1.isChecked()){
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    count++;
-                    countDisplay.setText("" + count);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                count++;
+                countDisplay.setText("" + count);
+            }
+        });
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            count--;
+                            countDisplay.setText("" + count);
+                        }
+                    });
+                } else {
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            count++;
+                            countDisplay.setText("" + count);
+                        }
+                    });
                 }
-            });
-        } else{
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    count--;
-                    countDisplay.setText("" + count);
-                }
-            });
-        }
+            }
+        });
 
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
